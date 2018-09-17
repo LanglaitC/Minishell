@@ -6,11 +6,11 @@
 /*   By: clanglai <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2017/11/08 08:09:27 by clanglai          #+#    #+#             */
-/*   Updated: 2018/06/04 12:33:04 by mjoubert         ###   ########.fr       */
+/*   Updated: 2018/08/08 12:39:06 by clanglai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../inc/asm.h"
+#include "../inc/libft.h"
 
 int	ft_isprint(int c)
 {
