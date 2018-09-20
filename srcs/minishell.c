@@ -6,7 +6,7 @@
 /*   By: clanglai <clanglai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/06/28 13:27:24 by clanglai          #+#    #+#             */
-/*   Updated: 2018/09/17 13:31:30 by clanglai         ###   ########.fr       */
+/*   Updated: 2018/09/20 11:35:20 by clanglai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int main(int argc, char **argv, char **envp) {
   (void)argv;
   hist = NULL;
   ft_putstr("$> ");
-  ft_initialize_built_in_env();
+  env_list = ft_initialize_built_in_env(envp);
   while(1)
     while(get_next_line(0, &line))
     {
@@ -36,7 +36,7 @@ int main(int argc, char **argv, char **envp) {
         save_cmd(&hist, line);
         if (!(cmds = ft_strsplit(line, ';')))
           exit(EXIT_FAILURE);
-        process_line(cmds, envp);
+        process_line(cmds, &env_list);
       }
       ft_putstr("$> ");
     }

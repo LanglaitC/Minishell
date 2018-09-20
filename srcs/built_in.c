@@ -6,7 +6,7 @@
 /*   By: clanglai <clanglai@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2018/08/30 12:25:52 by clanglai          #+#    #+#             */
-/*   Updated: 2018/09/17 13:50:24 by clanglai         ###   ########.fr       */
+/*   Updated: 2018/09/20 12:24:32 by clanglai         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,31 @@
 t_builtin  g_builtin[6];
 
 /*
-**  Initialize buit_in array.
+**  Initialize buit_in array and convert the shell environnement
+**  into a list.
 */
 
-t_list  *ft_initialize_built_in(char **env)
+t_list  *ft_initialize_built_in_env(char **env)
 {
   t_list  *new;
+  t_list  *tmp;
   int     i;
 
+  new = NULL;
   if (env && env[0])
   {
-    t_list =
+    if (!(new = ft_lstnew(env[0], ft_strlen(env[0]) + 1)))
+      exit(EXIT_FAILURE);
+    tmp = new;
+    ((char*)tmp->content)[ft_strlen(env[0])] = '\0';
+    i = 0;
+    while(env[++i])
+    {
+      if (!(tmp->next = ft_lstnew(env[i], ft_strlen(env[i]) + 1)))
+        exit(EXIT_FAILURE);
+      tmp = tmp->next;
+      ((char*)tmp->content)[ft_strlen(env[i])] = '\0';
+    }
   }
   g_builtin[0].label = "echo";
   g_builtin[1].label = "cd";
@@ -44,9 +58,10 @@ t_list  *ft_initialize_built_in(char **env)
   g_builtin[3].func = &bltin_unsetenv;
   g_builtin[4].func = &bltin_env;
   g_builtin[5].func = &bltin_exit;
+  return(new);
 }
 
-int bltin_echo(char **arg, char **env)
+int bltin_echo(char **arg, t_list **env)
 {
   int i;
 
@@ -60,7 +75,7 @@ int bltin_echo(char **arg, char **env)
   return(1);
 }
 
-int bltin_cd(char **arg, char **env)
+int bltin_cd(char **arg, t_list **env)
 {
   int i;
 
@@ -82,7 +97,7 @@ int bltin_cd(char **arg, char **env)
   }
 }
 
-int bltin_exit(char **arg, char **env)
+int bltin_exit(char **arg, t_list **env)
 {
   (void)arg;
   (void)env;
